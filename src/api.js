@@ -48,8 +48,23 @@ function cleanURL(url) {
   return url ? url.replace(/\/+$/, "") : ""; // end me slash hata de
 }
 
-export const BASE =
-  cleanURL(import.meta.env.VITE_SERVER_URL?.trim()) || cleanURL(RENDER_URL);
+// export const BASE =
+//   cleanURL(import.meta.env.VITE_SERVER_URL?.trim()) || cleanURL(RENDER_URL);
+
+const BASE = import.meta.env.VITE_SERVER_URL;
+
+console.log("SERVER = ", BASE);
+
+async function apiJSON(path, body) {
+  const response = await fetch(`${BASE}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  return await response.json();
+}
+
 
 // ===============================
 //  COMMON API FUNCTION
