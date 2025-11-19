@@ -220,7 +220,6 @@
 // }
 
 
-
 import React, { useEffect, useMemo, useState } from "react";
 import { socket } from "../socket";
 import MessageList from "./MessageList";
@@ -338,7 +337,7 @@ export default function ChatRoom({
                 #{r}
               </button>
 
-              {/* delete only user-created rooms */}
+              {/* Only show delete for user-created rooms */}
               {!["main", "chill", "work", "fun"].includes(r) && (
                 <button className="room-delete" onClick={() => deleteRoom(r)}>
                   Delete
@@ -377,7 +376,7 @@ export default function ChatRoom({
             Create
           </button>
 
-          {/* Final theme toggle button */}
+          {/* Final theme toggle */}
           <button
             className="theme-toggle"
             style={{ width: "100%", marginTop: "12px" }}
