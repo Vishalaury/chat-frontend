@@ -15,14 +15,13 @@
 
 import { io } from "socket.io-client";
 
-// Always use deployed backend URL
 const URL = import.meta.env.VITE_SERVER_URL;
 
 console.log("Socket connecting to:", URL);
 
 export const socket = io(URL, {
   autoConnect: false,
-  transports: ["websocket"], // better for Render
+  transports: ["websocket"],
 });
 
 export function connectWithToken(token) {

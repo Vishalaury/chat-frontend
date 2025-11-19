@@ -114,53 +114,37 @@
 
 // FINAL CLEAN VERSION
 
-
 const BASE = import.meta.env.VITE_SERVER_URL?.trim() || "http://localhost:5001";
-
 console.log("API BASE URL →", BASE);
 
-/** SAFE JSON PARSE */
-async function safeJSON(res) {
+async function safeFetch(url, opts) {
   try {
-    return await res.json();
-  } catch {
-    return null;
-  }
-}
-
-async function apiJSON(path, body = {}) {
-  try {
-    const res = await fetch(`${BASE}${path}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-
-    const data = await safeJSON(res);
-
-    return { ok: res.ok, data };
+    const res = await fetch(url, opts);
+    // try json first, else try text
+    const text = await res.text().catch(() => "");
+    let data = null;
+    if (text) {
+      try { data = JSON.parse(text); }
+      catch { data = text; }
+    }
+    return { ok: res.ok, status: res.status, data };
   } catch (err) {
-    console.error("API ERROR:", err);
-    return { ok: false, data: { error: "Request failed" } };
+    console.error("safeFetch error:", err);
+    return { ok: false, status: 0, data: { error: "Network error" } };
   }
 }
 
-export async function registerUser(details) {
-  return apiJSON("/auth/register", details);
-}
-
-export async function loginUser(details) {
-  return apiJSON("/auth/login", details);
+export async function apiJSON(path, body = {}) {
+  const url = `${BASE}${path}`;
+  const resp = await safeFetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return resp; // { ok, status, data }
 }
 
 export async function fetchRooms() {
-  try {
-    const res = await fetch(`${BASE}/rooms`);
-    const data = await safeJSON(res);
-
-    return data || []; // never return undefined
-  } catch (err) {
-    console.error("Failed to fetch rooms", err);
-    return [];
-  }
+  const resp = await safeFetch(`${BASE}/rooms`, { method: "GET" });
+  return resp.ok && Array.isArray(resp.data) ? resp.data : [];
 }
