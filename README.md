@@ -1,16 +1,47 @@
-# React + Vite
+# Live Chat Application – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+This repository contains the frontend of the Real-Time Chat Application built using React.js and Socket.io Client.  
+The frontend is responsible for the user interface, real-time communication, room management, authentication, and theme control.
 
-Currently, two official plugins are available:
+## Features
+1. User Authentication  
+   Users can register, log in, or join using guest mode.  
+   JWT token is used for authenticated requests.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2. Real-Time Messaging  
+   Messages are delivered instantly using Socket.io.  
+   All users in the same room receive messages in real time.
 
-## React Compiler
+3. Chat Rooms  
+   Users can join any available room or create new rooms.  
+   Default rooms cannot be deleted.  
+   User-created rooms can be deleted.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+4. Online Users Display  
+   Shows active users in the current room.  
+   Automatically updates when a user joins or leaves.
 
-## Expanding the ESLint configuration
+5. Typing Indicator  
+   Displays when other users are typing in the room.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+6. Chat History  
+   Loads recent chat history from the backend when entering a room.
+
+7. Light and Dark Theme  
+   Users can switch between light and dark modes.
+
+
+
+## Project Links
+Frontend Live URL  
+subtle-fenglisu-cf934c.netlify.app
+
+Backend API URL  
+https://real-time-chat-backend-2-dw7c.onrender.com
+
+Frontend GitHub Repository  
+https://github.com/Vishalaury/chat-frontend
+
+Backend GitHub Repository  
+https://github.com/Vishalaury/real-time-chat-backend
