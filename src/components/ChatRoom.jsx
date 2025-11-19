@@ -253,7 +253,7 @@ export default function ChatRoom({
       const data = await res.json().catch(() => ({}));
 
       if (data.error) return alert(data.error);
-      if (room === roomName) onSwitchRoom("general");
+      if (room === roomName) onSwitchRoom("main");
 
     } catch (err) {
       console.error("Delete room error:", err);
@@ -338,6 +338,7 @@ export default function ChatRoom({
                 #{r}
               </button>
 
+              {/* delete only user-created rooms */}
               {!["main", "chill", "work", "fun"].includes(r) && (
                 <button className="room-delete" onClick={() => deleteRoom(r)}>
                   Delete
@@ -376,7 +377,7 @@ export default function ChatRoom({
             Create
           </button>
 
-          {/* ⭐ FIXED THEME TOGGLE — NO LOGIC CHANGE */}
+          {/* Final theme toggle button */}
           <button
             className="theme-toggle"
             style={{ width: "100%", marginTop: "12px" }}
@@ -386,7 +387,7 @@ export default function ChatRoom({
               document.body.setAttribute("data-theme", newTheme);
             }}
           >
-            {theme === "dark" ? "Light mode" : "Dark mode"}
+            {theme === "light" ? "Dark mode" : "Light mode"}
           </button>
         </div>
 
