@@ -114,13 +114,21 @@
 
 // FINAL CLEAN VERSION
 
-const BASE =
-  import.meta.env.VITE_SERVER_URL?.trim() ||
-  "http://localhost:5001";
+
+const BASE = import.meta.env.VITE_SERVER_URL?.trim() || "http://localhost:5001";
 
 console.log("API BASE URL →", BASE);
 
-async function apiJSON(path, body) {
+/** SAFE JSON PARSE */
+async function safeJSON(res) {
+  try {
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+async function apiJSON(path, body = {}) {
   try {
     const res = await fetch(`${BASE}${path}`, {
       method: "POST",
@@ -128,7 +136,8 @@ async function apiJSON(path, body) {
       body: JSON.stringify(body),
     });
 
-    const data = await res.json();
+    const data = await safeJSON(res);
+
     return { ok: res.ok, data };
   } catch (err) {
     console.error("API ERROR:", err);
@@ -147,7 +156,9 @@ export async function loginUser(details) {
 export async function fetchRooms() {
   try {
     const res = await fetch(`${BASE}/rooms`);
-    return await res.json();
+    const data = await safeJSON(res);
+
+    return data || []; // never return undefined
   } catch (err) {
     console.error("Failed to fetch rooms", err);
     return [];
